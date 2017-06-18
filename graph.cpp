@@ -14,8 +14,11 @@ Graph::Graph(int row, int col, int K){
 		cout << "K must be greater than 0" << endl;
 		return;
 	}
-	int N = (K+1)*(row+1)+1;
-	int M = (K+1)*(col+1)+1;
+	this->row = row;
+	this->col = col;
+	this->K = K;
+	N = (K+1)*(row+1)+1;
+	M = (K+1)*(col+1)+1;
 	n = N*M*2+2;
 	S = N*M*2;
 	T = N*M*2+1;
@@ -66,10 +69,10 @@ void Graph::add_edge(int x, int y, int f, int c){
 	node[y].push_back(x);
 	mate[x].push_back(node[y].size()-1);
 	mate[y].push_back(node[x].size()-1);
-	flow[x].push_back(1);
-	flow[y].push_back(1);
-	cost[x].push_back(1);
-	cost[x].push_back(-1);
+	flow[x].push_back(f);
+	flow[y].push_back(0);
+	cost[x].push_back(c);
+	cost[y].push_back(-c);
 }
 
 Graph::~Graph(){

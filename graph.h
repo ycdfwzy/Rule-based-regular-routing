@@ -14,8 +14,9 @@ class Graph{
 		~Graph();
 		void add_edge(int, int, int, int);
 		
-		int n;
+		int n, N, M;
 		int S, T;
+		int row, col, K;
 		vector< vector<int> > node;
 		vector< vector<int> > mate;
 		vector< vector<int> > flow;
