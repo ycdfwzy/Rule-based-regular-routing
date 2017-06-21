@@ -31,6 +31,7 @@ Graph::Graph(int row, int col, int K){
 		for (int j = 1; j <= col; ++ j){
 			//((K+1)*i, (K+1)*j)
 			int x = (K+1)*i, y = (K+1)*j;
+			if (x+x > N || y+y > M) continue;
 			int id = x*M+y;
 			//S link to internal nodes
 			add_edge(S, id, 1, 1);
@@ -44,6 +45,7 @@ Graph::Graph(int row, int col, int K){
 	
 	for (int i = 0; i < N; ++ i){			// add normal nodes
 		for (int j = 0; j < M; ++ j){
+			if (i+i > N || j+j > M) continue;
 			int id = i*M+j;
 			// boundary nodes
 			if (i == 0 || j == 0 || i == N-1 || j == M-1){
@@ -76,8 +78,17 @@ void Graph::add_edge(int x, int y, int f, int c){
 }
 
 Graph::~Graph(){
+	cout << "begin ~Graph" << endl;
+	/*for (int i = 0; i < n; i++)
+	{
+		node[i].assign(0, 0);
+		mate[i].assign(0, 0);
+		flow[i].assign(0, 0);
+		cost[i].assign(0, 0);
+	}
 	node.assign(0, vector<int>(0));
 	mate.assign(0, vector<int>(0));
 	flow.assign(0, vector<int>(0));
-	cost.assign(0, vector<int>(0));
+	cost.assign(0, vector<int>(0));*/
+	cout << "end ~Graph" << endl;
 }

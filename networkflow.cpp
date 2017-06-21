@@ -3,13 +3,13 @@
 #include <cstring>
 #include <algorithm>
 #include <vector>
-#include <algorithm>
+#include <iostream>
 
 using namespace std;
 
 #define inf 1000000000;
 
-NetworkFlow::NetworkFlow(Graph& g):G(g){
+NetworkFlow::NetworkFlow(Graph& g) : G(g){
 	id.assign(G.n, 0);
 	d.assign(G.n, 0);
 	cnt.assign(G.n, 0);
@@ -22,11 +22,13 @@ NetworkFlow::NetworkFlow(Graph& g):G(g){
 }
 
 NetworkFlow::~NetworkFlow(){
-	id.assign(0, 0);
+	cout << "begin ~NetworkFlow" << endl;
+	/*id.assign(0, 0);
 	d.assign(0, 0);
 	cnt.assign(0, 0);
 	Min.assign(0, 0);
-	path.assign(0, 0);
+	path.assign(0, 0);*/
+	cout << "end ~NetworkFlow" << endl;
 }
 
 void NetworkFlow::MaxFlow(){	// SAP+GAP
@@ -44,12 +46,14 @@ void NetworkFlow::MaxFlow(){	// SAP+GAP
 				cur = G.node[cur][i];
 				if (cur == G.T){
 					maxflow += minx;
+					//cout << maxflow << endl;
 					while (cur != G.S){
 						int pre = G.node[cur][path[cur]];
 						G.flow[cur][path[cur]] += minx;
 						G.flow[pre][G.mate[cur][path[cur]]] -= minx;
 						cur = pre;
 					}
+					//cout << maxflow << endl;
 					minx = inf;
 				}
 				break;
@@ -68,10 +72,12 @@ void NetworkFlow::MaxFlow(){	// SAP+GAP
 				break;
 			id[cur] = m+1;
 			++cnt[id[cur]];
+			
 			if (cur != G.S){
 				cur = G.node[cur][path[cur]];
 				minx = Min[cur];
 			}
+			
 		}
 	}
 }
