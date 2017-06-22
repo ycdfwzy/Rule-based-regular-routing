@@ -12,8 +12,15 @@ class CostFlow{
 	public:
 		CostFlow(Graph&);
 		~CostFlow();
+		
+		int aug(int, int);
+		bool Judge();
 		void MinCostMaxFlow();
+		
+		
 		Graph& G;
+		vector<int> D, V, Q;
+		int maxflow, mincost, times;
 };
 
 #endif

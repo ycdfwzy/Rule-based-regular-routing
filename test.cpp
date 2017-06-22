@@ -10,12 +10,16 @@
 using namespace std;
 
 void TEST(){
-	Graph G(10, 10, 5);
-	NetworkFlow ntf(G);
+	static Graph G(80, 80, 30);
+	/*NetworkFlow ntf(G);
 	ntf.MaxFlow();
-	cout << ntf.maxflow << endl;
+	cout << ntf.maxflow << endl;*/
+	static CostFlow cf(G);
+	cf.MinCostMaxFlow();
+	cout << "MaxFlow: " << cf.maxflow << endl;
+	cout << "MinCost: " << cf.mincost << endl;
 	static Visual vis;
-	vis.Paint(ntf.G);
+	vis.Paint(cf.G);
 }
 
 int main(int argc, char* argv[]){

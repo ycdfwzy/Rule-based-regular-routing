@@ -27,7 +27,9 @@ void Visual::Paint(Graph& G){
 	for (int i = 0; i < G.n/2-1; ++ i){
 		int i1 = (int)((i/G.M)*rate), j1 = (int)((i%G.M)*rate);
 		for (int j = 0; j < G.node[i+G.n/2-1].size(); ++ j)
-		if (G.flow[i+G.n/2-1][j] == 0 && G.node[i+G.n/2-1][j] != i){
+		if (G.flow[i+G.n/2-1][j] == 0 && G.cost[i+G.n/2-1][j] >= 0){
+			if (G.node[i+G.n/2-1][j] == i  || G.node[i+G.n/2-1][j] == G.S || G.node[i+G.n/2-1][j] == G.T)
+				continue;
 			int p = G.node[i+G.n/2-1][j];
 			int i2 = (int)((p/G.M)*rate), j2 = (int)((p%G.M)*rate);
 			for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 1000; ++k1)
@@ -48,7 +50,7 @@ void Visual::Paint(Graph& G){
 					pRGB[k1][k2].g = 0;
 					pRGB[k1][k2].b = 255;
 				}
-				
+				/*
 			int x = (G.K+1)*i, y = (G.K+1)*j;
 			int id = x*G.M+y;
 			for (int k = 0; k < G.node[id].size(); ++ k)
@@ -61,13 +63,13 @@ void Visual::Paint(Graph& G){
 						pRGB[k1][k2].g = 179;
 						pRGB[k1][k2].b = 113;
 					}
-				}
+				}*/
 		}
 	}
 	
 	// 生成BMP图片
 	//char* filename = "show.bmp";
-	generateBmp( (BYTE*)pRGB, 1000, 1000, "D:\\show.bmp" );
+	generateBmp( (BYTE*)pRGB, 1000, 1000, "show.bmp" );
 }
 
 void Visual::generateBmp(BYTE* pData, int width, int height, char* filename){//生成Bmp图片，传递RGB值，传递图片像素大小，传递图片存储路径

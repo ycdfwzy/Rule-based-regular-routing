@@ -26,43 +26,50 @@ Graph::Graph(int row, int col, int K){
 	mate.assign(n, vector<int>(0));
 	flow.assign(n, vector<int>(0));
 	cost.assign(n, vector<int>(0));
-	
+	//cout << node.size() << endl;
+	//cout << node[0].size() << endl;
 	for (int i = 1; i <= row; ++ i){		//add internal nodes
 		for (int j = 1; j <= col; ++ j){
 			//((K+1)*i, (K+1)*j)
 			int x = (K+1)*i, y = (K+1)*j;
-			if (x+x > N || y+y > M) continue;
+			if (x > y || y+y > M) continue;
 			int id = x*M+y;
 			//S link to internal nodes
-			add_edge(S, id, 1, 1);
+			add_edge(S, id, 1, 0);
+			add_edge(id, id+(N*M), 1, 0);
 			
 			for (int d = 0; d < 4; ++ d){
 				int id1 = (x+dx[d])*M+y+dy[d];
-				add_edge(id, id1, 1, 1);
+				add_edge(id+(N*M), id1, 1, 1);
 			}
 		}
 	}
 	
 	for (int i = 0; i < N; ++ i){			// add normal nodes
 		for (int j = 0; j < M; ++ j){
-			if (i+i > N || j+j > M) continue;
+			if (i > j || j+j > M) continue;
 			int id = i*M+j;
 			// boundary nodes
 			if (i == 0 || j == 0 || i == N-1 || j == M-1){
-				add_edge(id, T, 1, 1);
+				add_edge(id, id+(N*M), 1, 0);
+				add_edge(id+(N*M), T, 1, 0);
 			} else
 			// others
 			if (i%(K+1) != 0 || j%(K+1) != 0){
 				add_edge(id, id+(N*M), 1, 0);
-				for (int d = 0; d < 4; ++ d){
-					if ((i+dx[d])%(K+1) == 0 && (j+dy[d])%(K+1) == 0)
-						continue;
+				for (int d = 0; d < 4; ++ d)
+				//if (i+dx[d] >= 0 && i+dx[d] < N && j+dy[d] >= 0 && j+dy[d] < M)
+				{
+					//if ((i+dx[d])%(K+1) == 0 && (j+dy[d])%(K+1) == 0)
+					//	continue;
 					int id1 = (i+dx[d])*M+j+dy[d];
 					add_edge(id+(N*M), id1, 1, 1);
 				}
 			}
 		}
 	}
+	
+	
 	
 }
 
