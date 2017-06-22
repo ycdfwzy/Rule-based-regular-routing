@@ -28,6 +28,7 @@ class Graph{
 		int n, N, M;
 		int S, T;
 		int row, col, K;
+		int Number[3400][3400];
 		/*vector< vector<int> > node;
 		vector< vector<int> > mate;
 		vector< vector<int> > flow;

@@ -10,11 +10,6 @@ using namespace std;
 #define inf 1000000000;
 
 NetworkFlow::NetworkFlow(Graph& g) : G(g){
-	/*id.assign(G.n, 0);
-	d.assign(G.n, 0);
-	cnt.assign(G.n, 0);
-	Min.assign(G.n, 0);
-	path.assign(G.n, 0);*/
 	id = new int[G.n];
 	cnt = new int[G.n];
 	Min = new int[G.n];
@@ -25,7 +20,6 @@ NetworkFlow::NetworkFlow(Graph& g) : G(g){
 	memset(Min, 0, sizeof(int)*G.n);
 	for (int i = 0; i < G.n; ++i)
 		d[i] = G.E[i];
-	//memset(path, 0, sizeof(int)*G.n);
 	cnt[0] = G.n;
 	minx = inf;
 	maxflow = 0;
@@ -33,13 +27,6 @@ NetworkFlow::NetworkFlow(Graph& g) : G(g){
 }
 
 NetworkFlow::~NetworkFlow(){
-	//cout << "begin ~NetworkFlow" << endl;
-	/*id.assign(0, 0);
-	d.assign(0, 0);
-	cnt.assign(0, 0);
-	Min.assign(0, 0);
-	path.assign(0, 0);*/
-	//cout << "end ~NetworkFlow" << endl;
 	delete[] id;
 	delete[] d;
 	delete[] cnt;

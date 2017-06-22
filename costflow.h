@@ -14,14 +14,15 @@ class CostFlow{
 		~CostFlow();
 		
 		int aug(int, int);
+		void BFS();
 		bool Judge();
 		void MinCostMaxFlow();
 		
 		
 		Graph& G;
-		int *D, *V, *Q;
-		//vector<int> D, V, Q;
-		int maxflow, mincost, times, t;
+		int *H, *Ti, *Q;
+		bool *V, *V2;
+		int maxflow, mincost, times, t, cnt;
 };
 
 #endif

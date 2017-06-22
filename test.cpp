@@ -9,8 +9,9 @@
 
 using namespace std;
 
+Graph G(80, 80, 20);
+
 void TEST(){
-	static Graph G(20, 20, 5);
 	/*NetworkFlow ntf(G);
 	ntf.MaxFlow();
 	cout << ntf.maxflow << endl;*/

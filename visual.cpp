@@ -21,23 +21,42 @@ void Visual::Paint(Graph& G){
 	double rate;
 	if (G.N < G.M) rate = 1000./G.N/3;
 		else rate = 1000./G.M/3;
-	//cout << rate << endl;
-	//60,179,113
-	//cout << G.N << " " << G.M << endl;
-	for (int i = 0; i < G.n/2-1; ++ i){
-		int i1 = (int)((i/G.M)*rate), j1 = (int)((i%G.M)*rate);
-		for (Edge* e = G.E[i+G.n/2-1]; e != NULL; e = e->next)
-		if (e->flow == 0 && e->cost >= 0){
-			int p = e->y;
-			if (p == i  || p == G.S || p == G.T)
-				continue;
-			int i2 = (int)((p/G.M)*rate), j2 = (int)((p%G.M)*rate);
-			for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 1000; ++k1)
-				for (int k2 = min(j1,j2)*3; k2 <= max(j1,j2)*3 && k2 < 1000; ++k2){
-					pRGB[k1][k2].r = 60;
-					pRGB[k1][k2].g = 179;
-					pRGB[k1][k2].b = 113;
+		
+	for (int i = 0; i < G.N; ++i)
+		for (int j = 0; j < G.M; ++j){
+			if (i > j || j+j > G.M) continue;
+			int i1 = (int)(i*rate), j1 = (int)(j*rate);
+			
+			for (Edge* e = G.E[G.Number[i][j]+1]; e != NULL; e = e->next)
+			if (e->flow == 0 && e->cost >= 0){
+				int p = e->y;
+				if (p == G.Number[i][j]  || p == G.S || p == G.T)
+					continue;
+				//int i2 = (int)((p/G.M)*rate), j2 = (int)((p%G.M)*rate);
+				int i2, j2;
+				if (i < G.N-1 && p == G.Number[i+1][j]){
+					i2 = (int)((i+1)*rate);
+					j2 = (int)(j*rate);
+				} else
+				if (i > 0 && p == G.Number[i-1][j]){
+					i2 = (int)((i-1)*rate);
+					j2 = (int)(j*rate);
+				} else
+				if (j < G.M-1 && p == G.Number[i][j+1]){
+					i2 = (int)(i*rate);
+					j2 = (int)((j+1)*rate);
+				} else
+				if (j > 0 && p == G.Number[i][j-1]){
+					i2 = (int)(i*rate);
+					j2 = (int)((j-1)*rate);
 				}
+				
+				for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 1000; ++k1)
+					for (int k2 = min(j1,j2)*3; k2 <= max(j1,j2)*3 && k2 < 1000; ++k2){
+						pRGB[k1][k2].r = 60;
+						pRGB[k1][k2].g = 179;
+						pRGB[k1][k2].b = 113;
+					}
 		}
 	}
 	
@@ -68,8 +87,7 @@ void Visual::Paint(Graph& G){
 	}
 	
 	// 生成BMP图片
-	char* filename = "show.bmp";
-	generateBmp( (BYTE*)pRGB, 1000, 1000, filename/*"show.bmp"*/ );
+	generateBmp( (BYTE*)pRGB, 1000, 1000, "show.bmp" );
 }
 
 void Visual::generateBmp(BYTE* pData, int width, int height, char* filename){//生成Bmp图片，传递RGB值，传递图片像素大小，传递图片存储路径
