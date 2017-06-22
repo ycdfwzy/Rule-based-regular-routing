@@ -19,8 +19,9 @@ class CostFlow{
 		
 		
 		Graph& G;
-		vector<int> D, V, Q;
-		int maxflow, mincost, times;
+		int *D, *V, *Q;
+		//vector<int> D, V, Q;
+		int maxflow, mincost, times, t;
 };
 
 #endif

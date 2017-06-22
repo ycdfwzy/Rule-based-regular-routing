@@ -15,7 +15,8 @@ class NetworkFlow{
 		void MaxFlow();
 		Graph& G;
 		
-		vector<int> id, d, Min, cnt, path;
+		int *id, *Min, *cnt;
+		Edge **d, **path;
 		int minx, maxflow;
 		bool flag;
 };

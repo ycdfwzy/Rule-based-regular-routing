@@ -10,11 +10,22 @@ using namespace std;
 #define inf 1000000000;
 
 NetworkFlow::NetworkFlow(Graph& g) : G(g){
-	id.assign(G.n, 0);
+	/*id.assign(G.n, 0);
 	d.assign(G.n, 0);
 	cnt.assign(G.n, 0);
 	Min.assign(G.n, 0);
-	path.assign(G.n, 0);
+	path.assign(G.n, 0);*/
+	id = new int[G.n];
+	cnt = new int[G.n];
+	Min = new int[G.n];
+	d = new Edge*[G.n];
+	path = new Edge*[G.n];
+	memset(id, 0, sizeof(int)*G.n);
+	memset(cnt, 0, sizeof(int)*G.n);
+	memset(Min, 0, sizeof(int)*G.n);
+	for (int i = 0; i < G.n; ++i)
+		d[i] = G.E[i];
+	//memset(path, 0, sizeof(int)*G.n);
 	cnt[0] = G.n;
 	minx = inf;
 	maxflow = 0;
@@ -22,13 +33,18 @@ NetworkFlow::NetworkFlow(Graph& g) : G(g){
 }
 
 NetworkFlow::~NetworkFlow(){
-	cout << "begin ~NetworkFlow" << endl;
+	//cout << "begin ~NetworkFlow" << endl;
 	/*id.assign(0, 0);
 	d.assign(0, 0);
 	cnt.assign(0, 0);
 	Min.assign(0, 0);
 	path.assign(0, 0);*/
-	cout << "end ~NetworkFlow" << endl;
+	//cout << "end ~NetworkFlow" << endl;
+	delete[] id;
+	delete[] d;
+	delete[] cnt;
+	delete[] Min;
+	delete[] path;
 }
 
 void NetworkFlow::MaxFlow(){	// SAP+GAP
@@ -36,22 +52,21 @@ void NetworkFlow::MaxFlow(){	// SAP+GAP
 	while (cnt[G.S] < G.n){
 		flag = false;
 		Min[cur] = minx;
-		for (int i = d[cur]; i < G.node[cur].size(); ++i){
-			if (G.flow[cur][i] > 0 && id[cur] == id[G.node[cur][i]]+1){
+		for (Edge* e = d[cur]; e != NULL; e = e->next){
+			if (e->flow > 0 && id[cur] == id[e->y]+1){
 				flag = true;
-				d[cur] = i;
-				if (G.flow[cur][i] < minx)
-					minx = G.flow[cur][i];
-				path[G.node[cur][i]] = G.mate[cur][i];
-				cur = G.node[cur][i];
+				d[cur] = e;
+				if (e->flow < minx)
+					minx = e->flow;
+				path[e->y] = e->opp;
+				cur = e->y;
 				if (cur == G.T){
 					maxflow += minx;
 					//cout << maxflow << endl;
 					while (cur != G.S){
-						int pre = G.node[cur][path[cur]];
-						G.flow[cur][path[cur]] += minx;
-						G.flow[pre][G.mate[cur][path[cur]]] -= minx;
-						cur = pre;
+						path[cur]->flow += minx;
+						path[cur]->opp->flow -= minx;
+						cur = path[cur]->y;
 					}
 					//cout << maxflow << endl;
 					minx = inf;
@@ -60,12 +75,12 @@ void NetworkFlow::MaxFlow(){	// SAP+GAP
 			}
 		}
 		if (flag == false){
-			int m = G.n-1, k = G.node[cur].size();
-			for (int i = 0; i < G.node[cur].size(); ++i){
-				if (G.flow[cur][i] > 0 && id[G.node[cur][i]] < m){
-					m = id[G.node[cur][i]];
-					k = i;
-				}
+			int m = G.n-1;
+			Edge* k = NULL;
+			for (Edge* e = G.E[cur]; e != NULL; e = e->next)
+			if (e->flow > 0 && id[e->y] < m){
+				m = id[e->y];
+				k = e;
 			}
 			d[cur] = k;
 			if (--cnt[id[cur]] == 0)
@@ -74,7 +89,7 @@ void NetworkFlow::MaxFlow(){	// SAP+GAP
 			++cnt[id[cur]];
 			
 			if (cur != G.S){
-				cur = G.node[cur][path[cur]];
+				cur = path[cur]->y;
 				minx = Min[cur];
 			}
 			

@@ -26,11 +26,11 @@ void Visual::Paint(Graph& G){
 	//cout << G.N << " " << G.M << endl;
 	for (int i = 0; i < G.n/2-1; ++ i){
 		int i1 = (int)((i/G.M)*rate), j1 = (int)((i%G.M)*rate);
-		for (int j = 0; j < G.node[i+G.n/2-1].size(); ++ j)
-		if (G.flow[i+G.n/2-1][j] == 0 && G.cost[i+G.n/2-1][j] >= 0){
-			if (G.node[i+G.n/2-1][j] == i  || G.node[i+G.n/2-1][j] == G.S || G.node[i+G.n/2-1][j] == G.T)
+		for (Edge* e = G.E[i+G.n/2-1]; e != NULL; e = e->next)
+		if (e->flow == 0 && e->cost >= 0){
+			int p = e->y;
+			if (p == i  || p == G.S || p == G.T)
 				continue;
-			int p = G.node[i+G.n/2-1][j];
 			int i2 = (int)((p/G.M)*rate), j2 = (int)((p%G.M)*rate);
 			for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 1000; ++k1)
 				for (int k2 = min(j1,j2)*3; k2 <= max(j1,j2)*3 && k2 < 1000; ++k2){
@@ -68,8 +68,8 @@ void Visual::Paint(Graph& G){
 	}
 	
 	// 生成BMP图片
-	//char* filename = "show.bmp";
-	generateBmp( (BYTE*)pRGB, 1000, 1000, "show.bmp" );
+	char* filename = "show.bmp";
+	generateBmp( (BYTE*)pRGB, 1000, 1000, filename/*"show.bmp"*/ );
 }
 
 void Visual::generateBmp(BYTE* pData, int width, int height, char* filename){//生成Bmp图片，传递RGB值，传递图片像素大小，传递图片存储路径
