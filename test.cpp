@@ -10,17 +10,17 @@
 
 using namespace std;
 
-Graph G(60, 60, 23);
+Graph G(50, 50, 13);
 
 void TEST(){
 	cout << G.n << endl;
-	/*NetworkFlow ntf(G);
-	ntf.MaxFlow();
-	cout << ntf.maxflow << endl;*/
-	CostFlow *cf = new CostFlow(G);
+	NetworkFlow *ntf = new NetworkFlow(G);
+	ntf->MaxFlow();
+	cout << "MaxFlow: " << ntf->maxflow << endl;
+	/*CostFlow *cf = new CostFlow(G);
 	cf->MinCostMaxFlow();
 	cout << "MaxFlow: " << cf->maxflow << endl;
-	cout << "MinCost: " << cf->mincost << endl;
+	cout << "MinCost: " << cf->mincost << endl;*/
 }
 
 void Paint(){

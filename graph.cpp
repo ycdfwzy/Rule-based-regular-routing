@@ -41,7 +41,7 @@ Graph::Graph(int row, int col, int K){
 	n = 0;
 	for (int i = 0; i < N; ++ i){			// add normal nodes
 		for (int j = 0; j < M; ++ j){
-			if (i >= j || j+j > M) continue;
+			//if (i >= j || j+j > M) continue;
 			Number[i][j] = n; n+=2;
 		}
 	}
@@ -60,7 +60,7 @@ Graph::Graph(int row, int col, int K){
 			//((K+1)*i, (K+1)*j)
 			int x = (K+1)*i, y = (K+1)*j;
 			
-			if (x >= y || y+y > M) continue;
+			//if (x >= y || y+y > M) continue;
 			
 			int id = Number[x][y];
 			//S link to internal nodes
@@ -68,8 +68,8 @@ Graph::Graph(int row, int col, int K){
 			add_edge(id, id+1, 1, 0);
 			
 			for (int d = 0; d < 4; ++ d){
-				if (x+dx[d] >= y+dy[d] || y+dy[d]+y+dy[d] > M)
-					continue;
+				//if (x+dx[d] >= y+dy[d] || y+dy[d]+y+dy[d] > M)
+					//continue;
 				int id1 = Number[x+dx[d]][y+dy[d]];
 				add_edge(id+1, id1, 1, 1);
 			}
@@ -78,7 +78,7 @@ Graph::Graph(int row, int col, int K){
 	
 	for (int i = 0; i < N; ++ i){			// add normal nodes
 		for (int j = 0; j < M; ++ j){
-			if (i >= j || j+j > M) continue;
+			//if (i >= j || j+j > M) continue;
 			int id = Number[i][j];
 			// boundary nodes
 			if (i == 0 || j == 0 || i == N-1 || j == M-1){
@@ -89,8 +89,8 @@ Graph::Graph(int row, int col, int K){
 			if (i%(K+1) != 0 || j%(K+1) != 0){
 				add_edge(id, id+1, 1, 0);
 				for (int d = 0; d < 4; ++ d){
-					if (i+dx[d] >= j+dy[d] || j+dy[d]+j+dy[d] > M)
-						continue;
+					//if (i+dx[d] >= j+dy[d] || j+dy[d]+j+dy[d] > M)
+						//continue;
 					int id1 = Number[i+dx[d]][j+dy[d]];
 					add_edge(id+1, id1, 1, 1);
 				}

@@ -54,10 +54,10 @@ class Visual{
 		void Paint(Graph& G);
 		void generateBmp(BYTE*, int, int, char*);
 		struct {
-		BYTE b;
-		BYTE g;
-		BYTE r;
-		} pRGB[4000][4000];
+			BYTE b;
+			BYTE g;
+			BYTE r;
+		} pRGB[3000][3000];
 };
 
 #endif
