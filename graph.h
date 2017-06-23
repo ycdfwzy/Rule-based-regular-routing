@@ -32,10 +32,11 @@ class Graph{
 		void add_edge(int, int, int, int);
 		
 		int n, N, M;
-		int S, T;
+		int S, T, s;
 		int row, col, K;
 		int Number[3400][3400];
 		Edge** E;
+		Edge* Er;
 };
 
 #endif

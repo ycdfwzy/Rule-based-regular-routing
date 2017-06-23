@@ -9,7 +9,6 @@
 using namespace std;
 
 void Visual::Paint(Graph& G){
-	
 	for (int i = 0; i < 3000; ++ i){
 		for (int j = 0; j < 3000; ++ j){
 			pRGB[i][j].r = 255;
@@ -24,7 +23,7 @@ void Visual::Paint(Graph& G){
 		
 	for (int i = 0; i < G.N; ++i)
 		for (int j = 0; j < G.M; ++j){
-			//if (i >= j || j+j > G.M) continue;
+			if (i+i > G.N || j+j > G.M) continue;
 			int i1 = (int)(i*rate), j1 = (int)(j*rate);
 			
 			for (Edge* e = G.E[G.Number[i][j]+1]; e != NULL; e = e->next)
@@ -63,8 +62,8 @@ void Visual::Paint(Graph& G){
 	for (int i = 1; i <= G.row; ++ i){
 		for (int j = 1; j <= G.col; ++ j){
 			int i1 = (int)((G.K+1)*i*rate), j1 = (int)((G.K+1)*j*rate);
-			for (int k1 = max(i1*2-1, 0); k1 < min(3000, i1*2+1); k1++)
-				for (int k2 = max(j1*2-1, 0); k2 < min(3000, j1*2+1); k2++){
+			for (int k1 = max(i1*2-2, 0); k1 < min(3000, i1*2+2); k1++)
+				for (int k2 = max(j1*2-2, 0); k2 < min(3000, j1*2+2); k2++){
 					pRGB[k1][k2].r = 0;
 					pRGB[k1][k2].g = 0;
 					pRGB[k1][k2].b = 255;

@@ -13,9 +13,12 @@ class NetworkFlow{
 		NetworkFlow(Graph&);
 		~NetworkFlow();
 		void MaxFlow();
+		void BFS();
+		int dinic_dfs(int, int);
+		bool dinic_bfs();
 		Graph& G;
 		
-		int *id, *Min, *cnt;
+		int *id, *Min, *cnt, *Q, *level;
 		Edge **d, **path;
 		int minx, maxflow;
 		bool flag;
