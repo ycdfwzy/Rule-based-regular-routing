@@ -16,7 +16,13 @@ class Edge{
 		Edge(){}
 		Edge(int, int, int, Edge*);
 		~Edge();
-		void init(int, int, int, Edge*, Edge*);
+		inline void init(int y_, int flow_, int cost_, Edge* opp_, Edge* next_){
+			y = y_;
+			flow = flow_;
+			cost = cost_;
+			opp = opp_;
+			next = next_;
+		}
 };
 
 class Graph{

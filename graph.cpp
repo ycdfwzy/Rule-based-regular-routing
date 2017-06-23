@@ -18,7 +18,7 @@ Edge::Edge(int y_, int flow_, int cost_, Edge* opp_){
 }
 
 Edge::~Edge(){}
-
+/*
 void Edge::init(int y_, int flow_, int cost_, Edge* opp_, Edge* next_){
 	y = y_;
 	flow = flow_;
@@ -26,7 +26,7 @@ void Edge::init(int y_, int flow_, int cost_, Edge* opp_, Edge* next_){
 	opp = opp_;
 	next = next_;
 }
-
+*/
 Graph::Graph(int row, int col, int K){
 	if (K <= 0){
 		cout << "K must be greater than 0" << endl;
@@ -59,7 +59,7 @@ Graph::Graph(int row, int col, int K){
 		for (int j = 1; j <= col; ++ j){
 			//((K+1)*i, (K+1)*j)
 			int x = (K+1)*i, y = (K+1)*j;
-			if (x > y || y+y > M) continue;
+			if (x >= y || y+y > M) continue;
 			int id = Number[x][y];
 			//S link to internal nodes
 			add_edge(S, id, 1, 0);
@@ -76,7 +76,7 @@ Graph::Graph(int row, int col, int K){
 	
 	for (int i = 0; i < N; ++ i){			// add normal nodes
 		for (int j = 0; j < M; ++ j){
-			if (i > j || j+j > M) continue;
+			if (i >= j || j+j > M) continue;
 			int id = Number[i][j];
 			// boundary nodes
 			if (i == 0 || j == 0 || i == N-1 || j == M-1){
@@ -87,7 +87,7 @@ Graph::Graph(int row, int col, int K){
 			if (i%(K+1) != 0 || j%(K+1) != 0){
 				add_edge(id, id+1, 1, 0);
 				for (int d = 0; d < 4; ++ d){
-					if (i+dx[d] > j+dy[d] || j+dy[d]+j+dy[d] > M)
+					if (i+dx[d] >= j+dy[d] || j+dy[d]+j+dy[d] > M)
 						continue;
 					int id1 = Number[i+dx[d]][j+dy[d]];
 					add_edge(id+1, id1, 1, 1);
@@ -95,9 +95,6 @@ Graph::Graph(int row, int col, int K){
 			}
 		}
 	}
-	
-	
-	
 }
 
 void Graph::add_edge(int x, int y, int f, int c){

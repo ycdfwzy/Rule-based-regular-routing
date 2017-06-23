@@ -1,3 +1,4 @@
+#pragma comment(linker,"/STACK:128000000,128000000")
 #include "costflow.h"
 #include <iostream>
 #include <algorithm>
