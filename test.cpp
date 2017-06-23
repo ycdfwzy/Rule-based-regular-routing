@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Graph G(70, 70, 20);
+Graph G(60, 60, 23);
 
 void TEST(){
 	cout << G.n << endl;
@@ -21,11 +21,18 @@ void TEST(){
 	cf->MinCostMaxFlow();
 	cout << "MaxFlow: " << cf->maxflow << endl;
 	cout << "MinCost: " << cf->mincost << endl;
-	/*static Visual vis;
-	vis.Paint(cf.G);*/
+}
+
+void Paint(){
+	Visual *vis = new Visual;
+	vis->Paint(G);
 }
 
 int main(int argc, char* argv[]){
+	int size = 64 << 20; // 64MB  
+    char *p = (char*)malloc(size) + size;  
+    __asm__("movl %0, %%esp\n" :: "r"(p));  
 	TEST();
+	Paint();
 	return 0;
 }

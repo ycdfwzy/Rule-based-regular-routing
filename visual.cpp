@@ -10,8 +10,8 @@ using namespace std;
 
 void Visual::Paint(Graph& G){
 	
-	for (int i = 0; i < 1000; ++ i){
-		for (int j = 0; j < 1000; ++ j){
+	for (int i = 0; i < 4000; ++ i){
+		for (int j = 0; j < 4000; ++ j){
 			pRGB[i][j].r = 255;
 			pRGB[i][j].g = 255;
 			pRGB[i][j].b = 255;
@@ -19,12 +19,12 @@ void Visual::Paint(Graph& G){
 	}
 	
 	double rate;
-	if (G.N < G.M) rate = 1000./G.N/3;
-		else rate = 1000./G.M/3;
+	if (G.N < G.M) rate = 4000./G.N/3;
+		else rate = 4000./G.M/3;
 		
 	for (int i = 0; i < G.N; ++i)
 		for (int j = 0; j < G.M; ++j){
-			if (i > j || j+j > G.M) continue;
+			if (i >= j || j+j > G.M) continue;
 			int i1 = (int)(i*rate), j1 = (int)(j*rate);
 			
 			for (Edge* e = G.E[G.Number[i][j]+1]; e != NULL; e = e->next)
@@ -51,8 +51,8 @@ void Visual::Paint(Graph& G){
 					j2 = (int)((j-1)*rate);
 				}
 				
-				for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 1000; ++k1)
-					for (int k2 = min(j1,j2)*3; k2 <= max(j1,j2)*3 && k2 < 1000; ++k2){
+				for (int k1 = min(i1,i2)*3; k1 <= max(i1,i2)*3 && k1 < 4000; ++k1)
+					for (int k2 = min(j1,j2)*3; k2 <= max(j1,j2)*3 && k2 < 4000; ++k2){
 						pRGB[k1][k2].r = 60;
 						pRGB[k1][k2].g = 179;
 						pRGB[k1][k2].b = 113;
@@ -63,8 +63,8 @@ void Visual::Paint(Graph& G){
 	for (int i = 1; i <= G.row; ++ i){
 		for (int j = 1; j <= G.col; ++ j){
 			int i1 = (int)((G.K+1)*i*rate), j1 = (int)((G.K+1)*j*rate);
-			for (int k1 = max(i1*3-2, 0); k1 <= min(1000, i1*3+2); k1++)
-				for (int k2 = max(j1*3-2, 0); k2 <= min(1000, j1*3+2); k2++){
+			for (int k1 = max(i1*3-2, 0); k1 <= min(4000, i1*3+2); k1++)
+				for (int k2 = max(j1*3-2, 0); k2 <= min(4000, j1*3+2); k2++){
 					pRGB[k1][k2].r = 0;
 					pRGB[k1][k2].g = 0;
 					pRGB[k1][k2].b = 255;
@@ -87,7 +87,7 @@ void Visual::Paint(Graph& G){
 	}
 	
 	// 生成BMP图片
-	generateBmp( (BYTE*)pRGB, 1000, 1000, "show.bmp" );
+	generateBmp( (BYTE*)pRGB, 4000, 4000, "show.bmp" );
 }
 
 void Visual::generateBmp(BYTE* pData, int width, int height, char* filename){//生成Bmp图片，传递RGB值，传递图片像素大小，传递图片存储路径

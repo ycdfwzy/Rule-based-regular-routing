@@ -57,7 +57,7 @@ class Visual{
 		BYTE b;
 		BYTE g;
 		BYTE r;
-		} pRGB[1000][1000];
+		} pRGB[4000][4000];
 };
 
 #endif

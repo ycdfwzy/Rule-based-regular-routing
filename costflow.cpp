@@ -13,9 +13,11 @@ CostFlow::CostFlow(Graph& g):G(g){
 	Ti = new int[G.n];
 	V = new bool[G.n];
 	V2 = new bool[G.n];
-	Q = new int[G.n<<1];
+	Q = new int[3400*3400*2];
 	memset(Ti, 0, sizeof(int)*G.n);
-	memset(H, 63, sizeof(int)*G.n);
+	for (int i = 0; i < G.n; ++i)
+		H[i] = inf;
+	//memset(H, 63, sizeof(int)*G.n);
 	memset(V, true, sizeof(bool)*G.n);
 	memset(V2, true, sizeof(bool)*G.n);
 	times = 0;
