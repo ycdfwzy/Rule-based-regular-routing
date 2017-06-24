@@ -184,55 +184,123 @@ void Greedy::greedy_algorithm(){
 		for (int i = (K+1)*t, _j = 0; ((col+1)/2)-_j > t || ((col+1)/2)+_j < (col-t+1); ++_j){
 			int j = (K+1)*((col+1)/2-_j);
 			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 0);
+				BFS(i, j, 0, 0);
 			j = (K+1)*((col+1)/2+_j);
 			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 0);
+				BFS(i, j, 0, 0);
 		}
 		//up
 		for (int i = (K+1)*(row-t+1), _j = 0; ((col+1)/2)-_j > t || ((col+1)/2)+_j < (col-t+1); ++_j){
 			int j = (K+1)*((col+1)/2-_j);
 			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 1);
+				BFS(i, j, 1, 1);
 			j = (K+1)*((col+1)/2+_j);
 			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 1);
+				BFS(i, j, 1, 1);
 		}
 		//left
 		for (int _i = 0, j = (K+1)*t; ((row+1)/2)-_i > t || ((row+1)/2)+_i < (row-t+1); ++_i){
 			int i = (K+1)*((row+1)/2-_i);
 			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 2);
+				BFS(i, j, 2, 2);
 			i = (K+1)*((row+1)/2+_i);
 			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 2);
+				BFS(i, j, 2, 2);
 		}
 		//right
 		for (int _i = 0, j = (K+1)*(col-t+1); ((row+1)/2)-_i > t || ((row+1)/2)+_i < (row-t+1); ++_i){
 			int i = (K+1)*((row+1)/2-_i);
 			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 3);
+				BFS(i, j, 3, 3);
 			i = (K+1)*((row+1)/2+_i);
 			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
-				BFS(i, j, 3);
+				BFS(i, j, 3, 3);
 		}
+		
+		int i = (K+1)*t, j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
+		
+		i = (K+1)*(row-t+1), j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
 	}
 	/*
 	for (int t = K+2; t <= row && t <= col; ++t){
 		int i = (K+1)*t, j = (K+1)*t;
-		BFS(i, j, -1);
+		BFS(i, j, -1, -1);
 		j = (K+1)*(col-t+1);
-		BFS(i, j, -1);
+		BFS(i, j, -1, -1);
 		
 		i = (K+1)*(row-t+1), j = (K+1)*t;
-		BFS(i, j, -1);
+		BFS(i, j, -1, -1);
 		j = (K+1)*(col-t+1);
-		BFS(i, j, -1);
+		BFS(i, j, -1, -1);
+	}
+	*/
+	/*for (int t = 1; t <= row && t <= col; ++t){
+		//down
+		for (int i = (K+1)*t, _j = 0; ((col+1)/2)-_j > t || ((col+1)/2)+_j < (col-t+1); ++_j){
+			int j = (K+1)*((col+1)/2-_j);
+			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 0, 0);
+			j = (K+1)*((col+1)/2+_j);
+			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 0, 0);
+		}
+		//up
+		for (int i = (K+1)*(row-t+1), _j = 0; ((col+1)/2)-_j > t || ((col+1)/2)+_j < (col-t+1); ++_j){
+			int j = (K+1)*((col+1)/2-_j);
+			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 1, 1);
+			j = (K+1)*((col+1)/2+_j);
+			if (j/(K+1) > t && j/(K+1) < col-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 1, 1);
+		}
+		//left
+		for (int _i = 0, j = (K+1)*t; ((row+1)/2)-_i > t || ((row+1)/2)+_i < (row-t+1); ++_i){
+			int i = (K+1)*((row+1)/2-_i);
+			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 2, 2);
+			i = (K+1)*((row+1)/2+_i);
+			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 2, 2);
+		}
+		//right
+		for (int _i = 0, j = (K+1)*(col-t+1); ((row+1)/2)-_i > t || ((row+1)/2)+_i < (row-t+1); ++_i){
+			int i = (K+1)*((row+1)/2-_i);
+			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 3, 3);
+			i = (K+1)*((row+1)/2+_i);
+			if (i/(K+1) > t && i/(K+1) < row-t+1 && MAP[i][j] == -1)
+				BFS(i, j, 3, 3);
+		}
+		int i = (K+1)*t, j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
 		
+		i = (K+1)*(row-t+1), j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
+	}*/
+	/*for (int t = 1; t <= row && t <= col; ++t){
+		int i = (K+1)*t, j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
+		
+		i = (K+1)*(row-t+1), j = (K+1)*t;
+		BFS(i, j, -1, -1);
+		j = (K+1)*(col-t+1);
+		BFS(i, j, -1, -1);
 	}*/
 }
 
-void Greedy::BFS(int sx, int sy, int ban){
+void Greedy::BFS(int sx, int sy, int ban, int kd){
 	int _d[4];
 	if (ban == -1){
 		_d[0] = 0;
@@ -252,14 +320,18 @@ void Greedy::BFS(int sx, int sy, int ban){
 	for (top=0, tail=0; top <= tail && MAP[sx][sy]==-1; top++){
 		int x = Q[top]/M, y = Q[top]%M;
 		for (int d = 0; d < 4; ++d)
-		if (_d[d] != ban){
-			if (x+dx[_d[d]] == 0 || x+dx[_d[d]] == N-1 || y+dy[_d[d]] == 0 || y+dy[_d[d]] == M-1){
+		if (_d[d] != ban)
+		{
+			if (((kd==-1 || kd==0) && x+dx[_d[d]] == 0) ||
+				((kd==-1 || kd==1) && x+dx[_d[d]] == N-1) || 
+				((kd==-1 || kd==2) && y+dy[_d[d]] == 0) || 
+				((kd==-1 || kd==3) && y+dy[_d[d]] == M-1)){
 				minlength+=D[x*M+y]+1;
 				++maxpoints;
 				MAP[x][y] = _d[d];
 				while (x!=sx || y!=sy){
-					for (int dd = 0; dd < 4; ++dd)
-					if (_d[dd] != ban && D[(x-dx[_d[dd]])*M+y-dy[_d[dd]]]+1 == D[x*M+y]){
+					for (int dd = 3; dd >= 0; --dd)
+					if (	_d[dd] != ban && D[(x-dx[_d[dd]])*M+y-dy[_d[dd]]]+1 == D[x*M+y]){
 						x = x-dx[_d[dd]];
 						y = y-dy[_d[dd]];
 						MAP[x][y] = _d[dd];
@@ -268,6 +340,8 @@ void Greedy::BFS(int sx, int sy, int ban){
 				}
 				break;
 			}
+			if (x+dx[_d[d]] == 0 || x+dx[_d[d]] == N-1 || y+dy[_d[d]] == 0 || y+dy[_d[d]] == M-1) continue;
+			
 			if ((x+dx[_d[d]])%(K+1)==0 && (y+dy[_d[d]])%(K+1)==0) continue;
 			if (MAP[x+dx[_d[d]]][y+dy[_d[d]]] == -1 && D[(x+dx[_d[d]])*M+y+dy[_d[d]]] > D[x*M+y]+1){
 				Q[++tail] = (x+dx[_d[d]])*M+y+dy[_d[d]];

@@ -13,7 +13,7 @@ using namespace std;
 
 
 void TEST_FLOW(){
-	Graph *G = new Graph(20, 20, 5);
+	Graph *G = new Graph(80, 80, 23);
 	/*NetworkFlow *ntf = new NetworkFlow(*G);
 	ntf->MaxFlow();
 	cout << "MaxFlow: " << ntf->maxflow << endl;*/
@@ -21,15 +21,22 @@ void TEST_FLOW(){
 	cf->MinCostMaxFlow();
 	cout << "MaxFlow: " << cf->maxflow << endl;
 	cout << "MinCost: " << cf->mincost << endl;
+	delete cf;
+	Visual *vis = new Visual;
+	vis->Paint(*G);
+	delete G;
+	delete vis;
 }
 
 void TEST_GREEDY(){
-	Greedy *grd = new Greedy(20, 20, 5);
+	Greedy *grd = new Greedy(80, 80, 23);
 	grd->greedy_algorithm();
 	cout << "maxpoints: " << grd->maxpoints << endl;
 	cout << "minlength: " << grd->minlength << endl;
 	Visual *vis = new Visual;
 	vis->Paint(*grd);
+	delete grd;
+	delete vis;
 }
 
 int main(int argc, char* argv[]){

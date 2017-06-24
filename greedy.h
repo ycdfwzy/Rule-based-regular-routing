@@ -19,7 +19,7 @@ class Greedy{
 		Greedy(int, int, int);
 		~Greedy();
 		void greedy_algorithm();
-		void BFS(int, int, int);
+		void BFS(int, int, int, int);
 };
 
 #endif
