@@ -2,6 +2,7 @@
 #define VISUAL_H_
 
 #include "graph.h"
+#include "greedy.h"
 #include <pshpack2.h>
 #include <cstdio>
 #include <cstdlib>
@@ -52,6 +53,7 @@ class Visual{
 		Visual(){}
 		~Visual(){}
 		void Paint(Graph& G);
+		void Paint(Greedy& G);
 		void generateBmp(BYTE*, int, int, char*);
 		struct {
 			BYTE b;
