@@ -13,12 +13,8 @@ CostFlow::CostFlow(Graph& g):G(g){
 	Ti = new int[G.n];
 	V = new bool[G.n];
 	V2 = new bool[G.n];
-	Q = new int[3400*3400*2];
+	Q = new int[G.n*5];
 	memset(Ti, 0, sizeof(int)*G.n);
-	for (int i = 0; i < G.n; ++i)
-		H[i] = inf;
-	//memset(H, 63, sizeof(int)*G.n);
-	memset(V, true, sizeof(bool)*G.n);
 	memset(V2, true, sizeof(bool)*G.n);
 	times = 0;
 	maxflow = 0;
@@ -34,63 +30,48 @@ CostFlow::~CostFlow(){
 	delete[] Q;
 }
 
+static int *E;
+static Edge *Er;
 void CostFlow::MinCostMaxFlow(){
+	E=G.E;
+	Er=G.Pool;
 	BFS();
 	cnt = 0;
 	do{
 		times++; t = 0;
 		aug(G.S, inf);
-		//cout << maxflow << endl;
+		//cout << "Times = "<< times <<" "<<t<< " " << maxflow << endl;
 	} while (Judge());
 }
 
+inline int Opposite(int x){return x^1;}
 void CostFlow::BFS(){
-	int u,bot;
+	memset(H, 63, sizeof(int)*G.n);
+	memset(V, true, sizeof(bool)*G.n);
+
+	int u,v,bot;
 	H[Q[bot=1]=G.T]=0;V[G.T]=false;
 	for(int top=1;top<=bot;top++){
 		u=Q[top];
-		for(Edge *P=G.E[u];P;P=P->next)
-		    if(P->opp->flow&&H[u]-P->cost<H[P->y]){
-				H[P->y]=H[u]-P->cost;
-				if(V[P->y]){Q[++bot]=P->y;V[P->y]=false;}
+		for(int P=E[u];P;P=Er[P].next){
+			v=Er[P].to;
+		    if(Er[Opposite(P)].flow && H[u]-Er[P].cost < H[v]){
+				H[v]=H[u]-Er[P].cost;
+				if(V[v]){Q[++bot]=v;V[v]=false;}
 		    }
+		}
 		V[u]=true;
     }
-	/*Q[t = 1] = G.T; V[G.T] = 1;
-	for (int i = 1; i <= t; ++i){
-		int x = Q[i];
-		for (Edge *e = G.E[x]; e != NULL; e = e->next)
-		if (e->opp->flow > 0 && D[e->y]-e->cost >= D[x]){
-			D[e->y] = D[x]+e->cost;
-			if (V[e->y] == 0){
-				Q[++t] = e->y;
-				V[e->y] = 1;
-			}
-		}
-		V[x] = 0;
-	}*/
-	//memset(V, 0, sizeof(int)*G.n);
 }
 
 bool CostFlow::Judge(){
-	/*if (V[G.T] == times) return true;
-	int delta = inf;
-	for (int k = 0; k < t; ++ k){
-		int i = Q[k];
-		for (Edge* e = G.E[i]; e != NULL; e = e->next)
-		if (e->flow > 0 && V[e->y] < times){
-			delta = min(delta, D[i]-D[e->y]+e->cost);
-		}
-	}
-	if (delta == inf) return false;
-	for (int k = 0; k < t; ++ k)
-		D[Q[k]] -= delta;
-	return true;*/
-	int u,tmp=inf;
+	int u,v,tmp=inf;
 	for(int i=1;i<=t;i++){
 		u=Q[i];
-		for(Edge *P=G.E[u];P;P=P->next)
-		    if(P->flow&&V[P->y])tmp=min(tmp,H[P->y]+P->cost-H[u]);
+		for(int P=E[u];P;P=Er[P].next){
+			v=Er[P].to;
+		    if(Er[P].flow && V[v])tmp=min(tmp,H[v]+Er[P].cost-H[u]);
+		}
 	}
 	if(tmp>=inf)return false;
 	for(int i=1;i<=t;i++){
@@ -100,37 +81,22 @@ bool CostFlow::Judge(){
 }
 
 int CostFlow::aug(int u,int lefts){
-	//cout << u << " " << lefts << endl;
-	if(u==G.T){mincost+=H[G.S]*lefts;maxflow+=lefts;return lefts;}
-	int ret=0,tmp;
-	//cout << u << " " << lefts << endl;
+	if(u==G.T){
+		mincost+=H[G.S];
+		maxflow++;
+		return lefts;
+    }
+	int v,ret=0,tmp;
 	if(V[u]){Q[++t]=u;V[u]=false;}
 	V2[u]=false;
-	for(Edge *P=G.E[u];P&&ret<lefts;P=P->next)
-	    if(P->flow&&V2[P->y]&&Ti[P->y]!=times && H[u]==H[P->y]+P->cost){
-			tmp=aug(P->y,min(lefts-ret,(int)P->flow));
-			ret+=tmp;P->flow-=tmp;P->opp->flow+=tmp;
+	for(int P=E[u];P && ret<lefts;P=Er[P].next){
+		v=Er[P].to;
+	    if(Er[P].flow && V2[v] && Ti[v]!=times && H[u]==H[v]+Er[P].cost){
+			tmp=aug(v,min(lefts-ret,(int)Er[P].flow));
+			ret+=tmp;Er[P].flow-=tmp;Er[Opposite(P)].flow+=tmp;
 	    }
+	}
 	V2[u]=true;
 	if(ret<lefts)Ti[u]=times;
     return ret;
 }
-/*
-int CostFlow::aug(int cur, int f){
-	if (V[cur] < times) Q[t++] = cur;
-	V[cur] = times;
-	if (cur == G.T){
-		maxflow += f;
-		mincost -= D[G.S]*f;
-		return f;
-	}
-	int ret = 0;
-	for (Edge* e = G.E[cur]; e != NULL && f > ret; e = e->next)
-	if (e->flow > 0 && V[e->y] < times && D[cur]+e->cost == D[e->y]){
-		int tmp = aug(e->y, min(f-ret, e->flow));
-		e->flow -= tmp;
-		e->opp->flow += tmp;
-		ret += tmp;
-	}
-	return ret;
-}*/

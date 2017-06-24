@@ -56,7 +56,8 @@ void Visual::Paint(Greedy& G){
 	// 生成BMP图片
 	generateBmp( (BYTE*)pRGB, 3000, 3000, "greedy.bmp" );
 }
-
+static int *E;
+static Edge *Er;
 void Visual::Paint(Graph& G){
 	for (int i = 0; i < 3000; ++ i){
 		for (int j = 0; j < 3000; ++ j){
@@ -69,15 +70,17 @@ void Visual::Paint(Graph& G){
 	double rate;
 	if (G.N > G.M) rate = 3000./G.N/2;
 		else rate = 3000./G.M/2;
-		
+	
+	E = G.E;
+	Er = G.Pool;
 	for (int i = 0; i < G.N; ++i)
 		for (int j = 0; j < G.M; ++j){
-			//if (i+i > G.N || j+j > G.M) continue;
 			int i1 = (int)(i*rate), j1 = (int)(j*rate);
 			
-			for (Edge* e = G.E[G.Number[i][j]+1]; e != NULL; e = e->next)
-			if (e->flow == 0 && e->cost >= 0){
-				int p = e->y;
+			for (int P = E[G.Number[i][j]+1]; P; P = Er[P].next)
+			//for (Edge* e = G.E[G.Number[i][j]+1]; e != NULL; e = e->next)
+			if (Er[P].flow == 0 && Er[P].cost >= 0){
+				int p = Er[P].to;
 				if (p == G.Number[i][j] || p == G.S || p == G.T)
 					continue;
 				//int i2 = (int)((p/G.M)*rate), j2 = (int)((p%G.M)*rate);

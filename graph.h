@@ -1,6 +1,9 @@
 #ifndef GRAPH_H_
 #define GRAPH_H_
 
+#define Temp short
+#define Maxn 2000
+
 #include <cstring>
 #include <algorithm>
 #include <iostream>
@@ -10,17 +13,15 @@ using namespace std;
 
 class Edge{
 	public:
-		int y, flow, cost;
-		Edge *opp, *next;
+		int to, next;
+		Temp flow, cost;
 		
 		Edge(){}
-		Edge(int, int, int, Edge*);
-		~Edge();
-		inline void init(int y_, int flow_, int cost_, Edge* opp_, Edge* next_){
-			y = y_;
+		~Edge(){}
+		inline void init(int to_, Temp flow_, Temp cost_, int next_){
+			to = to_;
 			flow = flow_;
 			cost = cost_;
-			opp = opp_;
 			next = next_;
 		}
 };
@@ -29,14 +30,15 @@ class Graph{
 	public:
 		Graph(int row, int col, int K);
 		~Graph();
-		void add_edge(int, int, int, int);
+		void add_edge(int, int, Temp, Temp);
 		
 		int n, N, M;
-		int S, T, s;
-		int row, col, K;
-		int Number[3400][3400];
-		Edge** E;
-		Edge* Er;
+		int S, T;
+		int row, col, K,extra;
+		int Number[Maxn][Maxn];
+		int* E;
+		Edge* Pool;int Pool_cnt;
+
 };
 
 #endif

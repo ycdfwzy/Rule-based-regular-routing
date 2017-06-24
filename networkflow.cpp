@@ -9,6 +9,8 @@ using namespace std;
 
 #define inf 1000000000
 
+static int *E;
+static Edge *Er;
 NetworkFlow::NetworkFlow(Graph& g) : G(g){
 	id = new int[G.n];
 	cnt = new int[G.n];
@@ -25,6 +27,8 @@ NetworkFlow::NetworkFlow(Graph& g) : G(g){
 	minx = inf;
 	maxflow = 0;
 	flag = false;
+	E = G.E;
+	Er = G.Pool;
 }
 
 NetworkFlow::~NetworkFlow(){
@@ -51,12 +55,12 @@ void NetworkFlow::BFS(){
 	}
 	delete[] Q;
 }
-
+/*
 int NetworkFlow::dinic_dfs(int u, int cp) {
     int tmp = cp;
     if (u == G.T) return cp;
+	for 
 	for (Edge* e = G.E[u]; e != NULL && tmp>0; e = e->next){
-    //for (v = 1; v <= E&&tmp; v++) {
         if (level[u] + 1 == level[e->y]) {
             if (e->flow > 0) {
                 int t = dinic_dfs(e->y, min(tmp, e->flow));
@@ -86,7 +90,7 @@ bool NetworkFlow::dinic_bfs(){
 	delete[] Q;
 	return level[G.T] != 0;
 }
-
+*/
 void NetworkFlow::MaxFlow(){
 	//dinic
 	/*int tmp = 0;
