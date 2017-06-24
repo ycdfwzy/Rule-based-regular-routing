@@ -2,7 +2,6 @@
 #include "greedy.h"
 #include "graph.h"
 #include "visual.h"
-#include "networkflow.h"
 #include "costflow.h"
 #include <cstring>
 #include <algorithm>
@@ -13,7 +12,7 @@ using namespace std;
 
 
 void TEST_FLOW(){
-	Graph *G = new Graph(80, 80, 23);
+	Graph *G = new Graph(75, 75, 15);
 	/*NetworkFlow *ntf = new NetworkFlow(*G);
 	ntf->MaxFlow();
 	cout << "MaxFlow: " << ntf->maxflow << endl;*/
@@ -29,7 +28,7 @@ void TEST_FLOW(){
 }
 
 void TEST_GREEDY(){
-	Greedy *grd = new Greedy(80, 80, 23);
+	Greedy *grd = new Greedy(75, 75, 15);
 	grd->greedy_algorithm();
 	cout << "maxpoints: " << grd->maxpoints << endl;
 	cout << "minlength: " << grd->minlength << endl;

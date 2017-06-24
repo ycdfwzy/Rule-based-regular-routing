@@ -1,6 +1,6 @@
 test.exe: test.o graph.o visual.o costflow.o greedy.o
 	g++ test.o graph.o visual.o costflow.o greedy.o -o test.exe -O2
-test.o: test.cpp graph.h networkflow.h costflow.h graph.h
+test.o: test.cpp graph.h costflow.h graph.h
 	g++ -c test.cpp -o test.o -O2
 graph.o: graph.cpp graph.h
 	g++ -c graph.cpp -o graph.o -O2

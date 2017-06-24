@@ -227,6 +227,11 @@ void Greedy::greedy_algorithm(){
 		j = (K+1)*(col-t+1);
 		BFS(i, j, -1, -1);
 	}
+	
+	for (int i = 1; i <= row; ++i)
+		for (int j = 1; j <= col; ++j)
+			if (MAP[i*(K+1)][j*(K+1)] == -1)
+				BFS(i, j, -1, -1);
 	/*
 	for (int t = K+2; t <= row && t <= col; ++t){
 		int i = (K+1)*t, j = (K+1)*t;
